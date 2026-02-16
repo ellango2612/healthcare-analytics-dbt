@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: int_member_enrollments
+    description: >
+      Intermediate model joining members, enrollments, and plans.
+      Enriches enrollment data with member and plan details.
+    columns:
+      - name: enrollment_id
+        description: Unique enrollment identifier
+        tests:
+          - not_null
+          - unique
+      - name: member_id
+        description: Member identifier
+        tests:
+          - not_null
+      - name: plan_id
+        description: Plan identifier
+        tests:
+          - not_null
+      - name: enrollment_duration_days
+        description: Total days of enrollment period
+      - name: is_active
+        description: Binary flag for active enrollment
+      - name: is_churned
+        description: Binary flag for churned enrollment

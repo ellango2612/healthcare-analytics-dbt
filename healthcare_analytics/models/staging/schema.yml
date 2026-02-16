@@ -1,0 +1,93 @@
+version: 2
+
+models:
+  - name: stg_members
+    description: Cleaned and standardized member data
+    columns:
+      - name: member_id
+        description: Unique member identifier
+        tests:
+          - not_null
+          - unique
+      - name: region
+        description: Geographic region (lowercase)
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['northeast', 'west', 'south', 'midwest']
+      - name: signup_date
+        description: Date member signed up
+        tests:
+          - not_null
+
+  - name: stg_plans
+    description: Cleaned and standardized plan data
+    columns:
+      - name: plan_id
+        description: Unique plan identifier
+        tests:
+          - not_null
+          - unique
+      - name: metal_tier
+        description: Plan tier level
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['bronze', 'silver', 'gold', 'platinum']
+      - name: monthly_premium
+        description: Monthly premium amount in USD
+        tests:
+          - not_null
+
+  - name: stg_enrollments
+    description: Cleaned and standardized enrollment data
+    columns:
+      - name: enrollment_id
+        description: Unique enrollment identifier
+        tests:
+          - not_null
+          - unique
+      - name: member_id
+        description: Reference to member
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_members')
+              field: member_id
+      - name: plan_id
+        description: Reference to plan
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_plans')
+              field: plan_id
+      - name: status
+        description: Current enrollment status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['active', 'churned', 'pending']
+
+  - name: stg_claims
+    description: Cleaned and standardized claims data
+    columns:
+      - name: claim_id
+        description: Unique claim identifier
+        tests:
+          - not_null
+          - unique
+      - name: member_id
+        description: Reference to member who filed claim
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_members')
+              field: member_id
+      - name: claim_amount
+        description: Claim amount in USD
+        tests:
+          - not_null
+      - name: claim_type
+        description: Type of healthcare claim
+        tests:
+          - not_null

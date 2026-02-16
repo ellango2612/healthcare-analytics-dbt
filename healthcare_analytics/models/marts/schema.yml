@@ -1,0 +1,124 @@
+version: 2
+
+models:
+  - name: dim_members
+    description: >
+      Dimension table for healthcare program members.
+      SCD Type 1: captures current state only.
+    columns:
+      - name: member_id
+        description: Primary key - unique member identifier
+        tests:
+          - not_null
+          - unique
+      - name: full_name
+        description: Concatenated first and last name
+      - name: region
+        description: Member's geographic region
+        tests:
+          - not_null
+
+  - name: dim_plans
+    description: >
+      Dimension table for healthcare plans.
+      Contains plan details and metal tier hierarchy.
+    columns:
+      - name: plan_id
+        description: Primary key - unique plan identifier
+        tests:
+          - not_null
+          - unique
+      - name: metal_tier
+        description: Plan tier (bronze, silver, gold, platinum)
+        tests:
+          - not_null
+      - name: tier_order
+        description: Numeric tier ranking for sorting
+
+  - name: dim_regions
+    description: >
+      Dimension table for geographic regions.
+      Supports regional analysis and aggregation.
+    columns:
+      - name: region_code
+        description: Primary key - region identifier
+        tests:
+          - not_null
+          - unique
+
+  - name: fct_enrollments
+    description: >
+      Fact table capturing healthcare plan enrollment events.
+      Grain: one row per enrollment (member-plan combination).
+      Supports enrollment counts, churn analysis, premium calculations.
+    columns:
+      - name: enrollment_id
+        description: Primary key - unique enrollment event
+        tests:
+          - not_null
+          - unique
+      - name: member_id
+        description: Foreign key to dim_members
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_members')
+              field: member_id
+      - name: plan_id
+        description: Foreign key to dim_plans
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_plans')
+              field: plan_id
+      - name: region_code
+        description: Foreign key to dim_regions
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_regions')
+              field: region_code
+      - name: enrollment_status
+        description: Current status (active, churned)
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['active', 'churned', 'pending']
+      - name: total_premium_paid
+        description: Calculated total premium over enrollment period
+
+  - name: fct_claims
+    description: >
+      Fact table capturing individual healthcare claims.
+      Grain: one row per claim event.
+      Supports claim volume, cost analysis, and utilization metrics.
+      Materialized incrementally for performance.
+    columns:
+      - name: claim_id
+        description: Primary key - unique claim identifier
+        tests:
+          - not_null
+          - unique
+      - name: member_id
+        description: Foreign key to dim_members
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_members')
+              field: member_id
+      - name: region_code
+        description: Foreign key to dim_regions
+        tests:
+          - not_null
+      - name: claim_date
+        description: Date claim was submitted
+        tests:
+          - not_null
+      - name: claim_amount
+        description: Claim amount in USD
+        tests:
+          - not_null
+      - name: claim_type
+        description: Type of healthcare service
+        tests:
+          - not_null
