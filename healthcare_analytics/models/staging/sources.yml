@@ -1,0 +1,47 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Raw seed data for healthcare analytics
+    database: healthcare_analytics
+    schema: public
+    tables:
+      - name: members
+        description: Healthcare program members
+        columns:
+          - name: member_id
+            description: Unique member identifier
+            tests:
+              - not_null
+              - unique
+      
+      - name: plans
+        description: Available healthcare plans
+        columns:
+          - name: plan_id
+            description: Unique plan identifier
+            tests:
+              - not_null
+              - unique
+      
+      - name: enrollments
+        description: Member plan enrollments
+        columns:
+          - name: enrollment_id
+            description: Unique enrollment identifier
+            tests:
+              - not_null
+              - unique
+      
+      - name: claims
+        description: Healthcare claims submitted by members
+        freshness:
+          warn_after: {count: 1, period: day}
+          error_after: {count: 2, period: day}
+        loaded_at_field: claim_date
+        columns:
+          - name: claim_id
+            description: Unique claim identifier
+            tests:
+              - not_null
+              - unique

@@ -1,0 +1,11 @@
+plan_id,plan_name,metal_tier,monthly_premium
+P001,Essential Health Basic,bronze,250.00
+P002,Essential Health Plus,silver,350.00
+P003,Complete Care Standard,silver,375.00
+P004,Complete Care Premium,gold,475.00
+P005,Premium Health Gold,gold,500.00
+P006,Premium Health Platinum,platinum,625.00
+P007,Family Care Bronze,bronze,275.00
+P008,Family Care Silver,silver,400.00
+P009,Senior Care Bronze,bronze,265.00
+P010,Senior Care Gold,gold,490.00

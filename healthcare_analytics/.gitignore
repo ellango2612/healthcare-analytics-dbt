@@ -1,0 +1,34 @@
+# Navigate to project root (where dbt_project.yml is)
+cd ~/healthcare-analytics-dbt/healthcare_analytics
+
+# Create .gitignore
+cat > .gitignore << 'EOF'
+# dbt
+target/
+dbt_packages/
+logs/
+.user.yml
+
+# Python
+dbt_venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+profiles.yml
+EOF
