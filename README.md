@@ -212,7 +212,10 @@ LIMIT 10;
 Built as a portfolio project to demonstrate data engineering capabilities for healthcare analytics roles. Designed to showcase production-ready code, best practices, and business acumen in translating requirements into analytical data models.
 
 ## 📧 Contact
-Thu (Ella) Ngo Email: xuanthu.2612.40@gmail.com LinkedIn: linkedin.com/in/thu-ella-ngo https://github.com/ellango2612
+Thu (Ella) Ngo
+Email: xuanthu.2612.40@gmail.com
+LinkedIn: linkedin.com/in/thu-ella-ngo
+GitHub: https://github.com/ellango2612
 ---
 
 *Built with dbt, Snowflake, and SQL*
