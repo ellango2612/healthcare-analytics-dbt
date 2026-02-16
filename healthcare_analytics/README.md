@@ -23,6 +23,12 @@ Simulates a healthcare enrollment support program analyzing:
 
 ## 🏗️ Architecture
 
+### Data Lineage
+
+![dbt Lineage Graph](images/lineage_graph.jpeg)
+
+*Complete data lineage showing the flow from raw sources through staging and intermediate layers to final dimensional marts.*
+
 ### Data Flow
 ```
 Raw Data (Seeds)
